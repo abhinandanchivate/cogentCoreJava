@@ -1,11 +1,15 @@
 package com.cogent.employeemanagementsystem.model;
 
+import com.cogent.employeemanagementsystem.exception.InvalidSalaryException;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 //@Data
 //@AllArgsConstructor
 public  class Employee {
+	
+	
 	
 	public float calculateSalary() {
 		return empSalary + 500;
@@ -32,8 +36,13 @@ public  class Employee {
 	public float getEmpSalary() {
 		return empSalary;
 	}
-	public void setEmpSalary(float empSalary) {
+	public void setEmpSalary(float empSalary) throws InvalidSalaryException{
+		// salary is not negative RT
+		// if it is negative invalidsalaryException
+		if(empSalary>0)
 		this.empSalary = empSalary;
+		else
+			throw new InvalidSalaryException("salary should not be negative");
 	}
 	public String getAddress() {
 		return address;
@@ -41,12 +50,12 @@ public  class Employee {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public Employee(String employeeId, String firstName, String lastName, float empSalary) {
+	public Employee(String employeeId, String firstName, String lastName, float empSalary) throws InvalidSalaryException {
 		super();
 		this.employeeId = employeeId;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.empSalary = empSalary;
+		this.setEmpSalary(empSalary);
 	}
 	private String employeeId;
 	private String firstName;
