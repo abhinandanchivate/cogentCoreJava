@@ -14,5 +14,8 @@ public interface EmployeeRepository {
 	public Employee getEmployeeById(String id) throws IdNotFoundException, IOException;
 	public List<Employee> getEmployees();
 	public String updateEmployee(String id, Employee employee);
+	public boolean isEmployeeExists(String id);
+	
+	
 	
 }

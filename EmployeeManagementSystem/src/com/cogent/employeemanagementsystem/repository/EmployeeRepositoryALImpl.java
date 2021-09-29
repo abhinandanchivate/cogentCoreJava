@@ -2,7 +2,10 @@ package com.cogent.employeemanagementsystem.repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import com.cogent.employeemanagementsystem.exception.IdNotFoundException;
 import com.cogent.employeemanagementsystem.model.Employee;
@@ -26,8 +29,9 @@ private static EmployeeRepository employeeRepository;
 		
 	}
 
-	private List<Employee> employees = new ArrayList<>();
-	// 10 employees 
+	private Set<Employee> employees = new HashSet<>();
+	
+	// 16 employees 
 	// when we will add 11th one then it will increase the size automatically.
 	// self growable.
 	
@@ -46,15 +50,29 @@ private static EmployeeRepository employeeRepository;
 			return "fail";
 	}
 
+	
+	
 	@Override
 	public String deleteEmployeeById(String id) throws IdNotFoundException, IOException {
 		// TODO Auto-generated method stub
-		return null;
+		Employee employee = this.getEmployeeById(id);
+		
+		if(employee!=null) {
+			boolean status = employees.remove(employee);
+			if(status) {
+				return "success";
+			}
+			
+		}
+		return "notFound";
 	}
 
 	@Override
 	public void deleteAllEmployees() {
 		// TODO Auto-generated method stub
+		
+		// delete all employees from AL.
+		employees.clear();
 
 	}
 
@@ -79,13 +97,25 @@ private static EmployeeRepository employeeRepository;
 		// TODO Auto-generated method stub
 		// AL => array 
 		//Employee employee[] = new Employee[employees.size()];
-		return employees;
+		// set ===> list.
+		return new ArrayList<>(employees);
 	}
 
 	@Override
 	public String updateEmployee(String id, Employee employee) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean isEmployeeExists(String id) {
+		// TODO Auto-generated method stub
+		for (Employee employee : employees) {
+			if(id.equals(employee.getEmployeeId())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
